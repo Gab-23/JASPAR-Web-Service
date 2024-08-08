@@ -1,0 +1,314 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>README</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#jaspar-web-service-documentation">JASPAR Web Service Documentation</a>
+<ul>
+<li><a href="#uintroductionu">Introduction</a></li>
+<li><a href="#upython-packageu">Python package</a></li>
+<li><a href="#uweb-service-applicationu">Web Service Application</a></li>
+<li><a href="#uunit-testingu">Unit-Testing</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="jaspar-web-service-documentation"><strong>JASPAR Web Service Documentation</strong></h1>
+<p>The python project I decided to work on asked to develop a RESTful Web Service that granted the user to interact with the <a href="https://jaspar.elixir.no/">JASPAR motifs Database</a>, allowing for  the excecution of some basic tasks, which will be discussed in this documentation file.<br>
+Here you will find an - hopefully enough - exhaustive  explanation on how the project is structured and how its components work.</p>
+<h2 id="uintroductionu"><strong><em><u>Introduction</u></em></strong></h2>
+<p>Inside this folder - together with the <strong><em>README</em></strong> files - you will also find:</p>
+<ul>
+<li>The <strong><em>Pacchetto_JASPAR</em></strong> folder, which is the Python package I created!</li>
+<li>The <strong><em>JASPAR_WS.py</em></strong> file, which is the main script for the application!</li>
+<li>The <strong><em>Images</em></strong> folder, in which all images will be dowloaded</li>
+<li>The <strong><em>tests</em></strong> folder, containing the UnitTest script!</li>
+<li>The 	<strong><em>requirements.txt</em></strong> file, containing all the package dependencies</li>
+</ul>
+<p>All the components are designed in order to grant a user-friendly experience for the interaction with a local copy of the JASPAR motifs Database. Each motif stored in the Database is characterised by three essential information:</p>
+<ul>
+<li>The <strong>Jaspar_IDs</strong>, which is the unique identifier for each motif (e.g. MA1930.2)</li>
+<li>The <strong>corresponding TF name</strong> (e.g. CTCF)</li>
+<li>The <strong>P</strong>robability <strong>F</strong>requency <strong>M</strong>atrix (<strong>PFM</strong>)</li>
+</ul>
+<p>The application allows for different types of interactions with the locally stored motifs:</p>
+<ul>
+<li><strong>GET</strong> a specific DNA motif or ALL stored motifs from the Database (or even RANDOM ones)</li>
+<li><strong>UPDATE</strong> an existing motif</li>
+<li><strong>ADD</strong> a new motif to the Database</li>
+<li><strong>REMOVE</strong> an existing motif (or even all of them) from the Database</li>
+<li><strong>SUBMIT</strong> a sequence of length L and <strong>GET</strong> the similarity scores compared to other motifs of length L</li>
+<li><strong>GET</strong> the sequence logo of the motifs you’re interested in</li>
+<li><strong>GET</strong> basic Database statistics and length distribution barplot of the motifs</li>
+</ul>
+<h2 id="upython-packageu"><strong><em><u>Python package</u></em></strong></h2>
+<h3 id="uhow-to-install-the-packageu"><em><u>How to install the package</u></em></h3>
+<p>In order to tidy up the main script containing the Flask application I decided to create a python package. The package encloses the main functions and objects I used to handle the information contained in the JASPAR Database and performs tasks that are useful for the Web Service application.</p>
+<p>Since the package is a local one, the installation step using “pip” or “pip3” commands is not needed. However proper attention must be paid to its dependencies.</p>
+<p>In order to properly install dependencies, the <strong><em>requirements.txt</em></strong> file will be used and the procedure to install them is straight forward:</p>
+<pre><code>pip install -r ./path_to_folder/requirements.txt
+</code></pre>
+<p>With this command all the dependencies listed in the file will be installed.</p>
+<h3 id="upackage-modulesu"><em><u>Package modules</u></em></h3>
+<p>The package I created is composed of different modules. To be more specific, there is generally one module for each function and one module for the objects I created. The modules are explained in the following paragraphs and the commented version of the scripts are available inside the <strong><em>Pacchetto_JASPAR</em></strong> folder.</p>
+<h4 id="db_setup-module"><em>DB_setup module</em></h4>
+<p>This module contains the <strong>DB_setup</strong> function, which creates the local Database,  in which all the motifs are stored. The function requests <a href="https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_non-redundant_pfms_jaspar.txt">data</a> directly from the JASPAR Database, which provides a .txt file in <a href="https://jaspar.elixir.no/docs/">JASPAR format</a>. The file is then processed in order to create consistent and correct <strong>Jaspar_elem</strong> objects, stored inside a list.</p>
+<h4 id="objects-module"><em>Objects module</em></h4>
+<p>A module containing all the self defined objects has been created. The module contains several Exceptions, defined to handle different possible unwanted scenarios, but the main core of the module - and of the package in general - is the <strong>Jaspar_elem</strong> object.</p>
+<ul>
+<li><strong><u>Jaspar_elem</u></strong></li>
+</ul>
+<p>The object has been created in order to properly treat all motifs stored in the database. Several methods for the class have been devised in order to grant an easy interaction with the objects.</p>
+<p>A set of getters has been defined in order to easily retrieve the attributes:</p>
+<ul>
+<li><strong>get_JASP</strong>, which retrieves the JASPAR_ID</li>
+<li><strong>get_TF_name</strong>, which retrieves the associated TF name</li>
+<li><strong>get_CONSENSUS</strong>, which retrieves the motif’s consensus sequence (i.e. the most frequent base at each position)</li>
+<li><strong>get_LENGTH</strong>, which retrieves the motif’s length</li>
+<li><strong>get_MATRIX</strong>, which retrieves the motif’s PFM</li>
+<li><strong>get_NORM_MATRIX</strong>, which retrieves the motif’s normalized PFM</li>
+</ul>
+<p>A set of setters has also been defined in order to set the object’s attributes:</p>
+<ul>
+<li><strong>set_JASP</strong>, which sets the JASPAR_ID</li>
+<li><strong>set_TF_name</strong>, which sets the associated TF name</li>
+<li><strong>set_MATRIX</strong>, which not only sets the PFM, but also sets the <strong>length</strong>, <strong>consensus sequence</strong> and the <strong>normalized matrix</strong> attributes of the motif. This allows for a more compact and controlled handling of the motifs’ main attributes when adding a new motif or updating an existing one, since all the attributes deriving from the PFM are accordingly set.</li>
+</ul>
+<p>The PFM is designed to be a pd.DataFrame. Rows represent different bases and the columns represent the particular position in the motif. Please note that the order of the bases inside the PFM is always the same (i.e. A, C, G, T) according to the JASPAR documentation. For more details check the <em>Unit-Testing</em> section. Since the expected type for the PFM is pd.Dataframe, proper exceptions will be raised if this condition is not met.</p>
+<p>When an instance of Jaspar_elem is created, all setters are called in the constructor of the object (<strong>__init__</strong>)</p>
+<p>Other important methods have been defined:</p>
+<ul>
+<li>
+<p><strong>find_consensus</strong>, that defines the consensus  sequence of the motif</p>
+</li>
+<li>
+<p><strong>to_dict</strong>, which converts the Jaspar_elem instance into a dictionary, composed of three main items (key - value pairs):</p>
+<ul>
+<li><strong>JASPAR_ID</strong></li>
+<li><strong>TF_name</strong></li>
+<li><strong>PFM</strong>, containing a JSON representation of the PFM, structured as a list of dictionaries, in a records oriented way (one dictionary per row).  The list contains 4 dictionaries, one for each base, ordered according to the JASPAR documentation (i.e. A, C , G, T). Each of the items in the dictionary will have keys corresponding to a progressive number ranging from 1 up to the length of the motif, and values displaying the count of that particular base at that specific position of the motif</li>
+</ul>
+</li>
+<li>
+<p><strong>create_logo</strong>, which uses the logomaker package to retrieve the <a href="https://drive.google.com/file/d/1jiAof_SPiWHWQwY3rV0c7u3S6h_3zwSy/view?usp=drive_link">motif logo</a>. The Information Content for each position is computed as 2 - Shannon’s Entropy. The proportional height of each of the bases in the logo is then computed multiplying the Information content of that position by the relative frequency of the base at that position. The logo is finally saved as a .png image (<em>named as the <strong>Jaspar_ID</strong></em>)  in the <strong><em>Images</em></strong> folder.</p>
+</li>
+</ul>
+<p>Finally the <strong>__str__</strong> is defined, in order to provide a pretty printed and more readable graphical representation of the motif</p>
+<ul>
+<li>
+<p><strong>Exceptions</strong></p>
+<ul>
+<li>
+<p><strong>Dictionary_Exception</strong> is raised when wrong keys are used when adding or updating a Jaspar_elem object in the database. The correct keys are:</p>
+<ul>
+<li><strong>JASPAR_ID</strong></li>
+<li><strong>PFM</strong></li>
+<li><strong>TF_name</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Dataframe_Exception</strong>, which is raised when trying to set as a PFM a non pd.DataFrame object.</p>
+</li>
+<li>
+<p><strong>Jaspar_elem_Exception</strong>, raised whenever a Jaspar_elem object is needed for some kind of task, but a different type of object is found instead.</p>
+</li>
+<li>
+<p><strong>Character_Exception</strong>, raised when bases different from the standard ones (e.g.  A, C, G, T) are detected in the input sequence when retrieving the confidence scores.</p>
+</li>
+<li>
+<p><strong>PFM_Exception</strong> is raised when adding a Jaspar_elem object or updating its PFM, if the list containing the records (that are dictionaries) of the PFM (or its JSON representation) has a length different from 4 (one record for each of the bases)</p>
+</li>
+<li>
+<p><strong>Length_Exception</strong> is raised when adding a Jaspar_elem object or updating its PFM, if the dictionaries inside the list containing the records of the PFM (or its JSON representation) are of different lengths (which means that a pd.DataFrame with rows of different length would be created)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="from_dict-module"><em>from_dict module</em></h4>
+<p>This module contains the <strong>from_dict</strong> function, which takes as input a <strong>dictionary representation</strong> of a Jaspar_elem object and converts it back into a proper Jaspar_elem object. All the attributes are automatically taken care of, even though only the <strong>Jaspar_ID</strong>, <strong>TF_name</strong> and <strong>PFM</strong> are required.</p>
+<p>Please note that, since this function is called when adding the element to the database, proper controls are made, in order to avoid unwanted results and proper Exceptions may be raised. For more details on how to correctly add elements to the Database, look at the <em>Web Service section</em> (<em>Add a new element to the database paragraph</em>)</p>
+<h4 id="sscore-module"><em>sscore module</em></h4>
+<p>This module actually contains 2 functions, called <strong>get_single_score</strong> and <strong>get_sequence_scores</strong>. Thanks to these function the computation of the similarity scores is allowed. In particular, given an input DNA sequence of length L, the functions compute the similarity scores for all the motifs of the same length L.</p>
+<p>Given the input sequence, the similarity score is computed based on the relative frequencies of the corresponding base at a specific position of the motif. In particular the multiplication of the relative frequencies is computed, representing as a score the global probability of having that particular sequence.</p>
+<p>One function (<strong>get_single_score</strong>) computes the similarity score for one single motif, given an input DNA sequence. The other one (<strong>get_sequence_scores</strong>)  creates a report - applying the first function to all motifs of length L stored in the database -  and returns the <strong>Jaspar_ID</strong>, the <strong>consensus sequence</strong> of the motif and the <strong>similarity scores</strong>.</p>
+<p>Please note that these functions have been created only considering the standard DNA bases (e.g. A, C, T, G), since they are the only ones present in the JASPAR format for DNA motifs. If other letters are inserted for the input sequence when typing the link, a proper exception will be raised.</p>
+<h2 id="uweb-service-applicationu"><em><strong><u>Web Service Application</u></strong></em></h2>
+<h3 id="uhow-to-launch-the-web-service-applicationu"><em><u>How to launch the Web Service application</u></em></h3>
+<p>In order to start the Web Service application, the main script (i.e. <strong><em>JASPAR_WS.py</em></strong>) must be excecuted. The user is required to have an Internet connection and to specify the port number. The internet connection is needed in order to request data from the JASPAR Database, whereas the port number is left to be specified in order to allow the user to choose it.</p>
+<p>The application can be launched using the command line, by typing:</p>
+<pre><code>python ./path_to_folder/JASPAR_WS.py &lt;port_number&gt;
+</code></pre>
+<p>Please, remember that the &lt;port_number&gt; argument is mandatory and MUST be an integer.<br>
+When the Web Service application is started, the local Database containing all the motifs - stored as Jaspar_elem objects - is created and will be ready to use.</p>
+<h3 id="uhow-to-call-the-functionsu"><em><u>How to call the functions</u></em></h3>
+<p>The main application uses functions and Objects created in the package in order to operate and provide the user a complete experience with the local JASPAR Database. All the actions that the user is allowed to perform are accessible using links that are routed to the corresponding functions, operating on the Database and its elements.<br>
+Here is an example of a link:</p>
+<pre><code>http://127.0.0.1:&lt;port_number&gt;/specific_link	
+</code></pre>
+<p>For starters, a central hub for the local Web Service can be invoked by simply typing:</p>
+<pre><code>curl http://127.0.0.1:&lt;port_number&gt;/
+</code></pre>
+<p>this will simply display the logo of the application - made using ASCII art - and the main features provided by the Web Service.</p>
+<p>In the next paragraphs you will find an explanation of the main features of each function, how they can be called and a sound explanation of how these functions work.</p>
+<h3 id="uretrieve-one-or-more-elements-from-the-databaseu"><em><u>Retrieve one or more elements from the Database</u></em></h3>
+<p>In order to retrieve the elements that are stored in the Database, different functions have been created. The functions can be divided into two main categories:</p>
+<ul>
+<li>Functions used to retrieve the <strong>string representation</strong> (i.e. the __str__) of each <strong>Jaspar_elem</strong></li>
+<li>Functions used to retrieve the <strong>JSON</strong> representation of each Jaspar_elem, that will include <strong>/var/</strong> in the link routed to them</li>
+</ul>
+<p>This main categorization has been made in order to both provide a pretty printed output for each of the elements - returning the string representation of the motif - and a more usable JSON string for the elements, that can be easily  handled in a Python script working as a Client.</p>
+<p>For each of this categories we find three functions, that can be accessed through these links:</p>
+<ul>
+<li>
+<p>Retrieve <strong>ALL</strong> the elements in the Database</p>
+<pre><code>  curl  http://127.0.0.1:&lt;port_number&gt;/all
+  curl  http://127.0.0.1:&lt;port_number&gt;/var/all
+</code></pre>
+</li>
+<li>
+<p>Retrieve a <strong>SPECIFIC</strong> element in the Database</p>
+<pre><code>  curl  http://127.0.0.1:&lt;port_number&gt;/&lt;ID&gt;
+  curl  http://127.0.0.1:&lt;port_number&gt;/var/&lt;ID&gt;
+</code></pre>
+</li>
+<li>
+<p>Retrieve a <strong>RANDOM</strong> element in the Database</p>
+<pre><code>  curl  http://127.0.0.1:&lt;port_number&gt;/random
+  curl  http://127.0.0.1:&lt;port_number&gt;/var/random
+</code></pre>
+</li>
+</ul>
+<h3 id="uremove-one-or-even-all-element-from-the-databaseu"><em><u>Remove one (or even all) element from the Database</u></em></h3>
+<p>Functions to remove one element (or all of them) from the local Database have been devised, easily accessible using the following links.</p>
+<ul>
+<li>
+<p>Remove <strong>ONE</strong> single element from the local Database</p>
+<pre><code>  curl -X DELETE http://127.0.0.1:&lt;port_number&gt;/&lt;ID&gt;
+</code></pre>
+</li>
+<li>
+<p>Remove <strong>ALL</strong> elements from the local Database</p>
+<pre><code>  curl -X DELETE http://127.0.0.1:&lt;port_number&gt;/all
+</code></pre>
+</li>
+</ul>
+<h3 id="uadd-a-new-element-to-the-databaseu"><em><u>Add a new element to the database</u></em></h3>
+<p>The user is allowed to add new elements to the Database. An example is provided below and some key aspects will be later discussed:</p>
+<pre><code>curl -H "Content-Type:application/json" -X POST -d 
+"{\"PFM\":
+ [{\"1\":34,\"2\":16,\"3\":22,\"4\":34,\"5\":53,\"6\":29,\"7\":10},
+ {\"1\":23,\"2\":85,\"3\":60,\"4\":7,\"5\":90,\"6\":7,\"7\":97},
+ {\"1\":45,\"2\":16,\"3\":34,\"4\":30,\"5\":50,\"6\":45,\"7\":10},
+ {\"1\":23,\"2\": 55,\"3\":0,\"4\":25,\"5\":25,\"6\":10,\"7\":24}], 
+ \"JASPAR_ID\" : \"trial_for_documentation\",
+ \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:5000/add
+</code></pre>
+<p>The JSON string sent to the Web Service has to contain <strong>all the main fields</strong> used by the Jaspar_elem to set its attributes, for more details look at the <em>Python Package section</em> (<em>Objects paragraph</em>).</p>
+<p>The PFM has to be written as a JSON representation of a <strong>list of dictionaries</strong>. Each dictionary represents a row of the PFM, corresponding to the occurrencies of a particular base across all positions of  the motif. Each dictionary in the PFM field MUST contain <strong>progressive numbers</strong> from 1 up to the length of the motif as keys, corresponding to the position of the base in the motif.</p>
+<p>The order of the dictionaries inside the list follows the <strong>alphabetical order</strong> (e.g. A, C, G, T), as indicated in the <a href="https://jaspar.elixir.no/docs/">JASPAR documentation</a>.</p>
+<p>Please note that controls are made in order to avoid unwanted situations and proper Exceptions will be raised if the user writes the request in a wrong way. Some common errors may be:</p>
+<ul>
+<li>Forgetting that the keys of the dictionaries MUST be progressive numbers from 1 up to the length of the motif</li>
+<li>Trying to insert dictionaries of different lengths</li>
+<li>Inserting empty keys or values</li>
+<li>Forgetting to put the -H “Content-Type:application/json” option</li>
+<li>Inserting wrongly typed keys</li>
+<li>Forgetting to insert all required keys</li>
+</ul>
+<p>Please note that the user can insert the Jaspar_ID, regardless of the rules used for the motifs’ IDs in the official database (MA followed by numbers, e.g. MA1930.2). If the user decides to insert the Jaspar_ID - or the TF_name - including some spaces the program will automatically fix it by replacing spaces with underscores (e.g. “trial for documentation” will become “trial_for_documentation”).</p>
+<p>Remember that the Jaspar_ID is an unique identifier, and if a non-unique ID is encountered the application will refuse to add the motif to the Database.</p>
+<p>If no error is encoutered the <em><strong>from_dict</strong></em> function is called and a <strong>new Jaspar_elem</strong> instance is added to the Database.</p>
+<h3 id="uupdate-an-existing-element-in-the-databaseu"><em><u>Update an existing element in the database</u></em></h3>
+<p>Similar principles apply for updating elements stored in the Database, except for one small difference. The program has been developed for the user to be able to modify <strong>up to each cell in the PFM</strong> of the motif. An example is provided below:</p>
+<pre><code>curl -H "Content-Type:application/json" -X PUT -d 
+"{\"PFM\":
+[{\"1\":34,\"2\":16,\"3\":22,\"4\":34,\"5\":53,\"6\":29,\"7\":10},
+{\"1\":23,\"2\":85,\"3\":60,\"4\":7,\"5\":90,\"6\":7,\"7\":97},
+{\"1\":45,\"2\":16,\"3\":34,\"4\":30,\"5\":50,\"6\":45,\"7\":10},
+{\"1\":23,\"2\": 55,\"3\":0,\"4\":25,\"5\":25,\"6\":10,\"7\":24}], 
+\"JASPAR_ID\" : \"trial_for_documentation\",
+\"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:5000/&lt;ID&gt;
+</code></pre>
+<p>The motif with Jaspar_ID corresponding to &lt;ID&gt; will be updated.<br>
+The main concepts regarding the update of a motif are the same as the ones stated in the previous paragraph. The only difference is:</p>
+<ul>
+<li>Here, the user can choose to <strong>only update some features of the motif</strong>, so not all standard fields will be required in the JSON representation of the Jaspar_elem in the request.</li>
+</ul>
+<p>Please note that, if errors are detected, during the update of a motif, proper Exceptions will be raised and a rollback will be performed. The most common errors the user can make are the same as the previous paragraph.</p>
+<p>If no error is encoutered, Jaspar_elem <strong>setters</strong>  are called and the Jaspar_elem stored in the Database will be updated.</p>
+<h3 id="usimilarity-scoreu"><em><u>Similarity score</u></em></h3>
+<p>By typing the following link</p>
+<pre><code>curl http://127.0.0.1:&lt;port_number&gt;/sscore/&lt;sequence&gt;
+</code></pre>
+<p>The user will be able to compute the similarity scores for all the motifs of the same length of the input &lt;sequence&gt;. As stated in the <em>Python Package section</em> (<em>sscore module paragraph</em>) a report is displayed, returning some informations about the motifs, including the similarity scores.</p>
+<h3 id="umiscellaneous-functionsu"><em><u>Miscellaneous functions</u></em></h3>
+<h4 id="generate-motif-logo"><em>Generate Motif Logo</em></h4>
+<p>By using the following link</p>
+<pre><code>curl http://127.0.0.1:&lt;port_number&gt;/logo/&lt;ID&gt;
+</code></pre>
+<p>the <strong>.create_logo</strong> method for the Jaspar_elem object having a <strong>Jaspar_ID</strong> corresponding to &lt;ID&gt; is created. The image is saved as a .png (<em>named as the <strong>Jaspar_ID</strong></em>)  in the <strong><em>Images</em></strong> folder. For more details regarding the method for the motifs logo generation, look at the <em>Python Package section</em> (<em>Objects paragraph</em>).</p>
+<h4 id="get-statistics-of-the-local-database"><em>Get Statistics of the local Database</em></h4>
+<p>By using the following link</p>
+<pre><code>curl http://127.0.0.1:&lt;port_number&gt;/stats
+</code></pre>
+<p>the user can retrieve basic statistics of the local Database, such as:</p>
+<ul>
+<li><strong>Number</strong> of currently stored <strong>motifs</strong></li>
+<li>Length of the <strong>shortest motifs</strong> (and their number inside the Database)</li>
+<li>Length of the <strong>longest motifs</strong> (and their number inside the Database)</li>
+<li><strong>Mean length</strong> of the motifs inside the Database</li>
+</ul>
+<p>This function wants to give the user an immediate idea of the characteristics of the motifs stored in the Database.</p>
+<h4 id="get-a-barplot-of-motifs-length-distribution"><em>Get a Barplot of motifs length distribution</em></h4>
+<p>By using the following link</p>
+<pre><code>curl http://127.0.0.1:&lt;port_number&gt;/stats/plot
+</code></pre>
+<p>the user can retrieve a barplot of the motifs length distribution, generated using Matplotlib. The image is saved as a .png (named <em>barplot</em>) in the <strong><em>Images</em></strong> folder. This barplot wants to give a quick visual representation of the data stored in the Database.</p>
+<p>The barplot should look like <a href="https://drive.google.com/file/d/1qIsnJNgoAj7NqrHMlFOrDLK2p7FiwcDh/view?usp=drive_link">this</a> even though the shape of it may change if some updates in the PFM are made or if some new motifs are added.</p>
+<h3 id="uerror-handlersu"><em><u>Error Handlers</u></em></h3>
+<p>A set of errorhandlers has been defined in order to cope with some possible errors in the Web Service context. The functions handle some common error the user can make, mostly related to errors in the typing of the request. Some common errors may be:</p>
+<ul>
+<li>Generic <strong>typing errors</strong> inside the commands</li>
+<li>Making a request using the <strong>wrong method</strong> (e.g. <strong>DELETE</strong> instead of <strong>GET</strong>)</li>
+<li>Requesting a <strong>URL</strong> that <strong>does not exist</strong></li>
+<li>Forgetting to type the option <strong>-H “Content-Type: application/json”</strong> when adding or updating an element in the Database</li>
+</ul>
+<p>These errorhandler functions allow for a better reaction of the Web Service application to unexpected requests.</p>
+<h2 id="uunit-testingu"><em><strong><u>Unit-Testing</u></strong></em></h2>
+<p>Some UnitTests have been implemented in order to check for some key aspects in the context of the local Database creation. All the tests can be excecuted by simply using the following link:</p>
+<pre><code>curl http://127.0.0.1:&lt;port_number&gt;/test
+</code></pre>
+<p>This link calls the function that runs the Unittesting script in the <em>tests</em> folder.<br>
+The following tests have been devised:</p>
+<ul>
+<li>Check for the <strong>completeness of the database</strong></li>
+<li>Check for the <strong>uniqueness of</strong> the <strong>Jaspar_IDs</strong></li>
+<li>Check if <strong>all</strong> the database <strong>elements are</strong> instances of <strong>Jaspar_elem</strong></li>
+<li>Check if <strong>all</strong> the <strong>PFMs</strong> of the Jaspar_elem <strong>are pd.DataFrames</strong></li>
+<li>Check for a correct <strong>formatting of the Jaspar_IDs</strong>, when the local Database is initialized</li>
+<li>Check for the <strong>correct raising of an Exception</strong>, when wrongly setting an attribute of the Jaspar_elem objects</li>
+<li>Check for the <strong>consistent order of the bases in the PFM</strong> throughout the whole local Database. According to the <a href="https://jaspar.elixir.no/docs/">JASPAR format</a>, the order of the bases in the PFM must be <strong>A, C, G, T</strong>.</li>
+</ul>
+<blockquote>
+<p>Made -with love- by Gabriele Oliveto</p>
+</blockquote>
+
+    </div>
+  </div>
+</body>
+
+</html>

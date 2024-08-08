@@ -1,0 +1,7 @@
+numpy
+matplotlib
+pandas
+requests
+logomaker
+scikit-learn
+flask
