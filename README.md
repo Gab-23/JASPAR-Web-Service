@@ -14,6 +14,8 @@ Inside this folder - together with the **_README_** files - you will also find:
  - The **_tests_** folder, containing the UnitTest script!
  - The 	**_requirements.txt_** file, containing all the package dependencies 
  
+ **NOTE:** all files and folders listed here, must be kept in their original folder  
+ 
 All the components are designed in order to grant a user-friendly experience for the interaction with a local copy of the JASPAR motifs Database. Each motif stored in the Database is characterised by three essential information:
 
 - The **Jaspar_IDs**, which is the unique identifier for each motif (e.g. MA1930.2)
@@ -321,5 +323,17 @@ The following tests have been devised:
 - Check for a correct **formatting of the Jaspar_IDs**, when the local Database is initialized
 - Check for the **correct raising of an Exception**, when wrongly setting an attribute of the Jaspar_elem objects
 - Check for the **consistent order of the bases in the PFM** throughout the whole local Database. According to the [JASPAR format](https://jaspar.elixir.no/docs/), the order of the bases in the PFM must be **A, C, G, T**. 
+
+## _**<u>Additional Notes</u>**_
+
+- **Python version :**  3.11.5
+- **Dependencies :**
+	- **Flask :**  2.2.5
+	- **logomaker :**  0.8
+	- **matplotlib :**  3.8.0
+	- **numpy :**   1.26.4
+	- **pandas :**  2.2.2
+	- **requests :**  2.31.0
+	- **scikit-learn :**  1.5.0
 
 >Made -with love- by Gabriele Oliveto

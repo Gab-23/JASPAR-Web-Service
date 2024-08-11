@@ -19,6 +19,7 @@
 <li><a href="#upython-packageu">Python package</a></li>
 <li><a href="#uweb-service-applicationu">Web Service Application</a></li>
 <li><a href="#uunit-testingu">Unit-Testing</a></li>
+<li><a href="#uadditional-notesu">Additional Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -39,6 +40,7 @@ Here you will find an - hopefully enough - exhaustive  explanation on how the pr
 <li>The <strong><em>tests</em></strong> folder, containing the UnitTest script!</li>
 <li>The 	<strong><em>requirements.txt</em></strong> file, containing all the package dependencies</li>
 </ul>
+<p><strong>NOTE:</strong> all files and folders listed here, must be kept in their original folder</p>
 <p>All the components are designed in order to grant a user-friendly experience for the interaction with a local copy of the JASPAR motifs Database. Each motif stored in the Database is characterised by three essential information:</p>
 <ul>
 <li>The <strong>Jaspar_IDs</strong>, which is the unique identifier for each motif (e.g. MA1930.2)</li>
@@ -302,6 +304,21 @@ The following tests have been devised:</p>
 <li>Check for a correct <strong>formatting of the Jaspar_IDs</strong>, when the local Database is initialized</li>
 <li>Check for the <strong>correct raising of an Exception</strong>, when wrongly setting an attribute of the Jaspar_elem objects</li>
 <li>Check for the <strong>consistent order of the bases in the PFM</strong> throughout the whole local Database. According to the <a href="https://jaspar.elixir.no/docs/">JASPAR format</a>, the order of the bases in the PFM must be <strong>A, C, G, T</strong>.</li>
+</ul>
+<h2 id="uadditional-notesu"><em><strong><u>Additional Notes</u></strong></em></h2>
+<ul>
+<li><strong>Python version :</strong>  3.11.5</li>
+<li><strong>Dependencies :</strong>
+<ul>
+<li><strong>Flask :</strong>  2.2.5</li>
+<li><strong>logomaker :</strong>  0.8</li>
+<li><strong>matplotlib :</strong>  3.8.0</li>
+<li><strong>numpy :</strong>   1.26.4</li>
+<li><strong>pandas :</strong>  2.2.2</li>
+<li><strong>requests :</strong>  2.31.0</li>
+<li><strong>scikit-learn :</strong>  1.5.0</li>
+</ul>
+</li>
 </ul>
 <blockquote>
 <p>Made -with love- by Gabriele Oliveto</p>
