@@ -90,7 +90,11 @@ Other important methods have been defined:
 	- **TF_name**
 	- **PFM**, containing a JSON representation of the PFM, structured as a list of dictionaries, in a records oriented way (one dictionary per row).  The list contains 4 dictionaries, one for each base, ordered according to the JASPAR documentation (i.e. A, C , G, T). Each of the items in the dictionary will have keys corresponding to a progressive number ranging from 1 up to the length of the motif, and values displaying the count of that particular base at that specific position of the motif
 
-- **create_logo**, which uses the logomaker package to retrieve the [motif logo](https://drive.google.com/file/d/1jiAof_SPiWHWQwY3rV0c7u3S6h_3zwSy/view?usp=drive_link). The Information Content for each position is computed as 2 - Shannon's Entropy. The proportional height of each of the bases in the logo is then computed multiplying the Information content of that position by the relative frequency of the base at that position. The logo is finally saved as a .png image (_named as the **Jaspar_ID**_)  in the **_Images_** folder.
+- **create_logo**, which uses the logomaker package to retrieve the motif logo. The Information Content for each position is computed as 2 - Shannon's Entropy. The proportional height of each of the bases in the logo is then computed multiplying the Information content of that position by the relative frequency of the base at that position. The logo is finally saved as a .png image (_named as the **Jaspar_ID**_)  in the **_Images_** folder.
+
+The motif's logo should look something like this:
+
+![The image is currently not available :(](Images_README/MA2018.2.png)
 
 Finally the **\_\_str\_\_** is defined, in order to provide a pretty printed and more readable graphical representation of the motif
 		
@@ -295,7 +299,9 @@ By using the following link
 		
 the user can retrieve a barplot of the motifs length distribution, generated using Matplotlib. The image is saved as a .png (named _barplot_) in the **_Images_** folder. This barplot wants to give a quick visual representation of the data stored in the Database.
 
-The barplot should look like [this](https://drive.google.com/file/d/1qIsnJNgoAj7NqrHMlFOrDLK2p7FiwcDh/view?usp=drive_link) even though the shape of it may change if some updates in the PFM are made or if some new motifs are added.
+The barplot should look like the image below even though the shape of it may change if some updates in the PFM are made or if some new motifs are added.
+
+![The image is currently  not available :(](Images_README/barplot.png)
 
 ### _<u>Error Handlers</u>_
 

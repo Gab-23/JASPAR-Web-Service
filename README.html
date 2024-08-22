@@ -106,9 +106,11 @@ Here you will find an - hopefully enough - exhaustive  explanation on how the pr
 </ul>
 </li>
 <li>
-<p><strong>create_logo</strong>, which uses the logomaker package to retrieve the <a href="https://drive.google.com/file/d/1jiAof_SPiWHWQwY3rV0c7u3S6h_3zwSy/view?usp=drive_link">motif logo</a>. The Information Content for each position is computed as 2 - Shannon’s Entropy. The proportional height of each of the bases in the logo is then computed multiplying the Information content of that position by the relative frequency of the base at that position. The logo is finally saved as a .png image (<em>named as the <strong>Jaspar_ID</strong></em>)  in the <strong><em>Images</em></strong> folder.</p>
+<p><strong>create_logo</strong>, which uses the logomaker package to retrieve the motif logo. The Information Content for each position is computed as 2 - Shannon’s Entropy. The proportional height of each of the bases in the logo is then computed multiplying the Information content of that position by the relative frequency of the base at that position. The logo is finally saved as a .png image (<em>named as the <strong>Jaspar_ID</strong></em>)  in the <strong><em>Images</em></strong> folder.</p>
 </li>
 </ul>
+<p>The motif’s logo should look something like this:</p>
+<p><img src="Images_README/MA2018.2.png" alt="The image is currently not available :("></p>
 <p>Finally the <strong>__str__</strong> is defined, in order to provide a pretty printed and more readable graphical representation of the motif</p>
 <ul>
 <li>
@@ -280,7 +282,8 @@ The main concepts regarding the update of a motif are the same as the ones state
 <pre><code>curl http://127.0.0.1:&lt;port_number&gt;/stats/plot
 </code></pre>
 <p>the user can retrieve a barplot of the motifs length distribution, generated using Matplotlib. The image is saved as a .png (named <em>barplot</em>) in the <strong><em>Images</em></strong> folder. This barplot wants to give a quick visual representation of the data stored in the Database.</p>
-<p>The barplot should look like <a href="https://drive.google.com/file/d/1qIsnJNgoAj7NqrHMlFOrDLK2p7FiwcDh/view?usp=drive_link">this</a> even though the shape of it may change if some updates in the PFM are made or if some new motifs are added.</p>
+<p>The barplot should look like the image below even though the shape of it may change if some updates in the PFM are made or if some new motifs are added.</p>
+<p><img src="Images_README/barplot.png" alt="The image is currently  not available :("></p>
 <h3 id="uerror-handlersu"><em><u>Error Handlers</u></em></h3>
 <p>A set of errorhandlers has been defined in order to cope with some possible errors in the Web Service context. The functions handle some common error the user can make, mostly related to errors in the typing of the request. Some common errors may be:</p>
 <ul>
