@@ -211,7 +211,7 @@ The user is allowed to add new elements to the Database. An example is provided 
      {\"1\":45,\"2\":16,\"3\":34,\"4\":30,\"5\":50,\"6\":45,\"7\":10},
      {\"1\":23,\"2\": 55,\"3\":0,\"4\":25,\"5\":25,\"6\":10,\"7\":24}], 
      \"JASPAR_ID\" : \"trial_for_documentation\",
-     \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:5000/add
+     \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:<port_number>/add
     
 The JSON string sent to the Web Service has to contain **all the main fields** used by the Jaspar_elem to set its attributes, for more details look at the _Python Package section_ (_Objects paragraph_).
 
@@ -234,6 +234,10 @@ Please note that the user can insert the Jaspar_ID, regardless of the rules used
 Remember that the Jaspar_ID is an unique identifier, and if a non-unique ID is encountered the application will refuse to add the motif to the Database.
 
 If no error is encoutered the _**from_dict**_ function is called and a **new Jaspar_elem** instance is added to the Database.
+
+Lastly, please note that the command is displayed on multiple lines for clarity, but should be written on a single line before copying and pasting it in the command line. 
+
+Moreover, the command has been tested on the Windows 11 command prompt run as administrator in order to recreate a scenario more similar to a Linux environment. If the command is run on Windows Powershell the object declared after the **-d** option should be enclosed in ' ' instead of " ".
     
 ### _<u>Update an existing element in the database</u>_
 
@@ -246,7 +250,7 @@ Similar principles apply for updating elements stored in the Database, except fo
     {\"1\":45,\"2\":16,\"3\":34,\"4\":30,\"5\":50,\"6\":45,\"7\":10},
     {\"1\":23,\"2\": 55,\"3\":0,\"4\":25,\"5\":25,\"6\":10,\"7\":24}], 
     \"JASPAR_ID\" : \"trial_for_documentation\",
-    \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:5000/<ID>
+    \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:<port_number>/<ID>
 
 The motif with Jaspar_ID corresponding to \<ID> will be updated. 
 The main concepts regarding the update of a motif are the same as the ones stated in the previous paragraph. The only difference is:
@@ -256,6 +260,10 @@ The main concepts regarding the update of a motif are the same as the ones state
 Please note that, if errors are detected, during the update of a motif, proper Exceptions will be raised and a rollback will be performed. The most common errors the user can make are the same as the previous paragraph.
 
 If no error is encoutered, Jaspar_elem __setters__  are called and the Jaspar_elem stored in the Database will be updated.
+
+Again, please note that the command is displayed on multiple lines for clarity, but should be written on a single line before copying and pasting it in the command line. 
+
+Moreover, the command has been tested on the Windows 11 command prompt run as administrator in order to recreate a scenario more similar to a Linux environment. If the command is run on Windows Powershell the object declared after the **-d** option should be enclosed in ' ' instead of " "
 
 ### _<u>Similarity score</u>_
 

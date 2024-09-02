@@ -219,7 +219,7 @@ Here is an example of a link:</p>
  {\"1\":45,\"2\":16,\"3\":34,\"4\":30,\"5\":50,\"6\":45,\"7\":10},
  {\"1\":23,\"2\": 55,\"3\":0,\"4\":25,\"5\":25,\"6\":10,\"7\":24}], 
  \"JASPAR_ID\" : \"trial_for_documentation\",
- \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:5000/add
+ \"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:&lt;port_number&gt;/add
 </code></pre>
 <p>The JSON string sent to the Web Service has to contain <strong>all the main fields</strong> used by the Jaspar_elem to set its attributes, for more details look at the <em>Python Package section</em> (<em>Objects paragraph</em>).</p>
 <p>The PFM has to be written as a JSON representation of a <strong>list of dictionaries</strong>. Each dictionary represents a row of the PFM, corresponding to the occurrencies of a particular base across all positions of  the motif. Each dictionary in the PFM field MUST contain <strong>progressive numbers</strong> from 1 up to the length of the motif as keys, corresponding to the position of the base in the motif.</p>
@@ -236,6 +236,8 @@ Here is an example of a link:</p>
 <p>Please note that the user can insert the Jaspar_ID, regardless of the rules used for the motifs’ IDs in the official database (MA followed by numbers, e.g. MA1930.2). If the user decides to insert the Jaspar_ID - or the TF_name - including some spaces the program will automatically fix it by replacing spaces with underscores (e.g. “trial for documentation” will become “trial_for_documentation”).</p>
 <p>Remember that the Jaspar_ID is an unique identifier, and if a non-unique ID is encountered the application will refuse to add the motif to the Database.</p>
 <p>If no error is encoutered the <em><strong>from_dict</strong></em> function is called and a <strong>new Jaspar_elem</strong> instance is added to the Database.</p>
+<p>Lastly, please note that the command is displayed on multiple lines for clarity, but should be written on a single line before copying and pasting it in the command line.</p>
+<p>Moreover, the command has been tested on the Windows 11 command prompt run as administrator in order to recreate a scenario more similar to a Linux environment. If the command is run on Windows Powershell the object declared after the <strong>-d</strong> option should be enclosed in ’ ’ instead of " ".</p>
 <h3 id="uupdate-an-existing-element-in-the-databaseu"><em><u>Update an existing element in the database</u></em></h3>
 <p>Similar principles apply for updating elements stored in the Database, except for one small difference. The program has been developed for the user to be able to modify <strong>up to each cell in the PFM</strong> of the motif. An example is provided below:</p>
 <pre><code>curl -H "Content-Type:application/json" -X PUT -d 
@@ -245,7 +247,7 @@ Here is an example of a link:</p>
 {\"1\":45,\"2\":16,\"3\":34,\"4\":30,\"5\":50,\"6\":45,\"7\":10},
 {\"1\":23,\"2\": 55,\"3\":0,\"4\":25,\"5\":25,\"6\":10,\"7\":24}], 
 \"JASPAR_ID\" : \"trial_for_documentation\",
-\"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:5000/&lt;ID&gt;
+\"TF_name\" : \"trial_for_documentation\"}" http://127.0.0.1:&lt;port_number&gt;/&lt;ID&gt;
 </code></pre>
 <p>The motif with Jaspar_ID corresponding to &lt;ID&gt; will be updated.<br>
 The main concepts regarding the update of a motif are the same as the ones stated in the previous paragraph. The only difference is:</p>
@@ -254,6 +256,8 @@ The main concepts regarding the update of a motif are the same as the ones state
 </ul>
 <p>Please note that, if errors are detected, during the update of a motif, proper Exceptions will be raised and a rollback will be performed. The most common errors the user can make are the same as the previous paragraph.</p>
 <p>If no error is encoutered, Jaspar_elem <strong>setters</strong>  are called and the Jaspar_elem stored in the Database will be updated.</p>
+<p>Again, please note that the command is displayed on multiple lines for clarity, but should be written on a single line before copying and pasting it in the command line.</p>
+<p>Moreover, the command has been tested on the Windows 11 command prompt run as administrator in order to recreate a scenario more similar to a Linux environment. If the command is run on Windows Powershell the object declared after the <strong>-d</strong> option should be enclosed in ’ ’ instead of " "</p>
 <h3 id="usimilarity-scoreu"><em><u>Similarity score</u></em></h3>
 <p>By typing the following link</p>
 <pre><code>curl http://127.0.0.1:&lt;port_number&gt;/sscore/&lt;sequence&gt;
