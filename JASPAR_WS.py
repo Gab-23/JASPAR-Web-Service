@@ -151,6 +151,26 @@ def get_var_specific(ID): #define a function to retrieve the JSON strings for a 
         return "No such motif is stored in the Database, try with another JASPAR_ID!"
     else:
         return jsonify(lis[0])
+    
+@app.route("/TF/<TF_name>")
+def get_specific_TF(TF_name): #define a function to retrieve a specific element in the database , if present
+    lis = [elem.__str__() for elem in set_up if elem.get_TF_name() == TF_name] #again, here I am returning the element's .__str__()
+    if len(set_up) == 0:
+        return 'Database is empty!'    
+    elif len(lis) == 0:
+        return "No such motif is stored in the Database, try with another TF_name!"
+    else:
+        return "\n\n".join(lis)
+
+@app.route("/TF/var/<TF_name>")
+def get_var_specific_TF(TF_name): #define a function to retrieve the JSON strings for a specific element in the database, if present
+    lis = [elem.to_dict() for elem in set_up if elem.get_TF_name() == TF_name] 
+    if len(set_up) == 0:
+        return 'Database is empty!'    
+    elif len(lis) == 0:
+        return "No such motif is stored in the Database, try with another TF_name!"
+    else:
+        return jsonify(lis)
 
 @app.route("/random")
 def get_random(): #define a function to retrieve a random element in the database
