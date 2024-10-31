@@ -47,7 +47,7 @@ except requests.exceptions.ConnectionError as e: #If the user is not connected t
     print("ERROR! Make sure you are connected to the Internet!")
     sys.exit(1)
 except IndexError as e:
-    print("ERROR! Make sure you have specified the database version! Redundant (r) or Non-Redundant (nr)")
+    print("ERROR! Make sure you have specified the database version! Redundant (-r) or Non-Redundant (-nr)")
     sys.exit(1)
 
 app = Flask(__name__) #define the app
