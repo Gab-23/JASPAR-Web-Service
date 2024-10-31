@@ -11,7 +11,8 @@ sys.path.insert(0, target_path)
 
 from Pacchetto_JASPAR import DB_setup, Objects, from_dict #import the package
 
-database = DB_setup.DB_setup() #create the database using the dedicated function
+database = DB_setup.DB_setup("-nr") #create the database using the dedicated function
+database_r = DB_setup.DB_setup("-r")
 
 #define a unittest.TestCase class to test several aspects of the database
 
@@ -23,8 +24,9 @@ class Test_DB_work(unittest.TestCase):
     def test_completeness_db(self): #define a test for assessing the completeness of the database. 
                                     #Since the creation of the database relies on a request from the official site of JASPAR, any Internet Connection problem nay provoke incompleteness in the database
         set_up_length = len(database)
+        set_up_length_r = len(database_r)
         self.assertEqual(set_up_length, 2346, "DB_setup failed!") #check for the completeness of the database. Here the number is hardcoded since it's the expected number of motifs in the database
-
+        self.assertEqual(set_up_length_r, 4279, "DB_setup failed!")
     def test_right_type(self): #define a test to check if every element in the local database is an instance of JASPAR_elem
         #check for the defined condition
         bool = all([(type(elem) == Objects.JASPAR_elem) for elem in database])

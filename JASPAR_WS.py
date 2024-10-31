@@ -42,9 +42,12 @@ except ImportError:
     sys.exit(1)
     
 try:
-    set_up = DB_setup.DB_setup() #Prepare the database before launching the Flask app! Please note that this is a list!
+    set_up = DB_setup.DB_setup(param_list[2]) #Prepare the database before launching the Flask app! Please note that this is a list!
 except requests.exceptions.ConnectionError as e: #If the user is not connected to the internet the setup of the database will fail!
     print("ERROR! Make sure you are connected to the Internet!")
+    sys.exit(1)
+except IndexError as e:
+    print("ERROR! Make sure you have specified the database version! Redundant (r) or Non-Redundant (nr)")
     sys.exit(1)
 
 app = Flask(__name__) #define the app

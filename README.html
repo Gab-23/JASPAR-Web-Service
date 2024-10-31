@@ -68,7 +68,9 @@ Here you will find an - hopefully enough - exhaustive  explanation on how the pr
 <h3 id="upackage-modulesu"><em><u>Package modules</u></em></h3>
 <p>The package I created is composed of different modules. To be more specific, there is generally one module for each function and one module for the objects I created. The modules are explained in the following paragraphs and the commented version of the scripts are available inside the <strong><em>Pacchetto_JASPAR</em></strong> folder.</p>
 <h4 id="db_setup-module"><em>DB_setup module</em></h4>
-<p>This module contains the <strong>DB_setup</strong> function, which creates the local Database,  in which all the motifs are stored. The function requests <a href="https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_non-redundant_pfms_jaspar.txt">data</a> directly from the JASPAR Database, which provides a .txt file in <a href="https://jaspar.elixir.no/docs/">JASPAR format</a>. The file is then processed in order to create consistent and correct <strong>Jaspar_elem</strong> objects, stored inside a list.</p>
+<p>This module contains the <strong>DB_setup</strong> function, which creates the local Database,  in which all the motifs are stored. The function requests data directly from the JASPAR Database, which provides a .txt file in <a href="https://jaspar.elixir.no/docs/">JASPAR format</a>. The file is then processed in order to create consistent and correct <strong>Jaspar_elem</strong> objects, stored inside a list.</p>
+<p>The most recent version of this Web Service allows the user to specify the kind of data to request from JASPAR Database.</p>
+<p><strong>DB_setup</strong> function now needs a parameter to be specified by the user from the command line (<strong>-r</strong> or <strong>-nr</strong>), allowing to select whether or not to retrieve data from the <strong>redundant</strong> or <strong>non-redundant</strong> database</p>
 <h4 id="objects-module"><em>Objects module</em></h4>
 <p>A module containing all the self defined objects has been created. The module contains several Exceptions, defined to handle different possible unwanted scenarios, but the main core of the module - and of the package in general - is the <strong>Jaspar_elem</strong> object.</p>
 <ul>
@@ -154,10 +156,9 @@ Here you will find an - hopefully enough - exhaustive  explanation on how the pr
 <h3 id="uhow-to-launch-the-web-service-applicationu"><em><u>How to launch the Web Service application</u></em></h3>
 <p>In order to start the Web Service application, the main script (i.e. <strong><em>JASPAR_WS.py</em></strong>) must be excecuted. The user is required to have an Internet connection and to specify the port number. The internet connection is needed in order to request data from the JASPAR Database, whereas the port number is left to be specified in order to allow the user to choose it.</p>
 <p>The application can be launched using the command line, by typing:</p>
-<pre><code>python ./path_to_folder/JASPAR_WS.py &lt;port_number&gt;
+<pre><code>python ./path_to_folder/JASPAR_WS.py &lt;port_number&gt; [-r | -nr]
 </code></pre>
-<p>Please, remember that the &lt;port_number&gt; argument is mandatory and MUST be an integer.<br>
-When the Web Service application is started, the local Database containing all the motifs - stored as Jaspar_elem objects - is created and will be ready to use.</p>
+<p>Please, remember that the &lt;port_number&gt; argument is mandatory and MUST be an integer. When the Web Service application is started, the local Database containing all the motifs - stored as Jaspar_elem objects - is created and will be ready to use.</p>
 <h3 id="uhow-to-call-the-functionsu"><em><u>How to call the functions</u></em></h3>
 <p>The main application uses functions and Objects created in the package in order to operate and provide the user a complete experience with the local JASPAR Database. All the actions that the user is allowed to perform are accessible using links that are routed to the corresponding functions, operating on the Database and its elements.<br>
 Here is an example of a link:</p>
@@ -193,6 +194,12 @@ Here is an example of a link:</p>
 <p>Retrieve a <strong>RANDOM</strong> element in the Database</p>
 <pre><code>  curl  http://127.0.0.1:&lt;port_number&gt;/random
   curl  http://127.0.0.1:&lt;port_number&gt;/var/random
+</code></pre>
+</li>
+<li>
+<p>Retrieve elements by <strong>TF_name</strong></p>
+<pre><code>  curl  http://127.0.0.1:&lt;port_number&gt;/TF/TF_name
+  curl  http://127.0.0.1:&lt;port_number&gt;/TF/var/TF_name
 </code></pre>
 </li>
 </ul>

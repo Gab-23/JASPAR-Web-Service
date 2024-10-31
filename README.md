@@ -52,7 +52,11 @@ The package I created is composed of different modules. To be more specific, the
 
 #### _DB_setup module_
 
-This module contains the **DB_setup** function, which creates the local Database,  in which all the motifs are stored. The function requests [data](https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_non-redundant_pfms_jaspar.txt) directly from the JASPAR Database, which provides a .txt file in [JASPAR format](https://jaspar.elixir.no/docs/). The file is then processed in order to create consistent and correct **Jaspar_elem** objects, stored inside a list.
+This module contains the **DB_setup** function, which creates the local Database,  in which all the motifs are stored. The function requests data directly from the JASPAR Database, which provides a .txt file in [JASPAR format](https://jaspar.elixir.no/docs/). The file is then processed in order to create consistent and correct **Jaspar_elem** objects, stored inside a list. 
+
+The most recent version of this Web Service allows the user to specify the kind of data to request from JASPAR Database. 
+
+**DB_setup** function now needs a parameter to be specified by the user from the command line (**-r** or **-nr**), allowing to select whether or not to retrieve data from the **redundant** or **non-redundant** database  
 
 #### _Objects module_
 
@@ -141,10 +145,9 @@ In order to start the Web Service application, the main script (i.e. **_JASPAR_W
 
 The application can be launched using the command line, by typing:
 		
-	python ./path_to_folder/JASPAR_WS.py <port_number>
+	python ./path_to_folder/JASPAR_WS.py <port_number> [-r | -nr]
 
-Please, remember that the \<port_number> argument is mandatory and MUST be an integer.
-When the Web Service application is started, the local Database containing all the motifs - stored as Jaspar_elem objects - is created and will be ready to use.
+Please, remember that the \<port_number> argument is mandatory and MUST be an integer. When the Web Service application is started, the local Database containing all the motifs - stored as Jaspar_elem objects - is created and will be ready to use.
 
 ### _<u>How to call the functions</u>_
 
@@ -186,6 +189,13 @@ For each of this categories we find three functions, that can be accessed throug
 
 		curl  http://127.0.0.1:<port_number>/random
 	    curl  http://127.0.0.1:<port_number>/var/random
+
+- Retrieve elements by **TF_name**
+
+		curl  http://127.0.0.1:<port_number>/TF/TF_name
+	    curl  http://127.0.0.1:<port_number>/TF/var/TF_name
+	  
+	 
  
 ### _<u>Remove one (or even all) element from the Database</u>_
 

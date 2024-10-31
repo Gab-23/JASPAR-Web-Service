@@ -1,10 +1,22 @@
 import pandas as pd
 import requests
+import sys
 from . import Objects #import the Objects module of my package
 
-def DB_setup():
+def DB_setup(how):
     #define a function that gets the whole database from the JASPAR website and preprocesses it, outputting the list containing all the database elements, in the form of self defined objects
-    URL = "https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_non-redundant_pfms_jaspar.txt"
+    try:
+        if how == "-r":
+            URL = "https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_redundant_pfms_jaspar.txt"
+        elif how == "-nr":
+            URL = "https://jaspar.elixir.no/download/data/2024/CORE/JASPAR2024_CORE_non-redundant_pfms_jaspar.txt"
+        else:
+            raise ValueError
+    except ValueError as e:
+        print("ERROR! Make sure to have correctly set the option! (either -r or -nr)")
+        sys.exit(1)
+
+    
     DB_raw = requests.get(URL).text.split(">")[1:] #I split each element using the > symbol
     DB_clean = []
     for motif in DB_raw:
